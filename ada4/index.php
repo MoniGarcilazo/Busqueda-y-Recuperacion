@@ -9,12 +9,13 @@
     </head>
     <body>
         <div>
-            <form id="form" action="./controllers/process.php" method="POST">
-                <fieldset>
-                    <input type="text" id="text" name="text" placeholder="Consultar"/>
-                </fieldset>
+            <h1>Subir archivos</h1>
+            <form action="./controllers/upload.php" method="POST" enctype="multipart/form-data">
+                <label for="files">Seleccionar archivos de texto:</label>
+                <input type="file" name="files[]" id="files" multiple accept=".txt">
+                <button type="submit">Subir archivos</button>
             </form>
         </div>
-        <article id="results"></article>
+        <section id="results"></section>
     </body>
 </html>
