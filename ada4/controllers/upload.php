@@ -1,5 +1,5 @@
 <?php 
-$upload_dir = "uploads/";
+$upload_dir = "uploads/files/";
 
 // Creatin the folder if does not exist
 if (!is_dir($upload_dir)) {
@@ -7,17 +7,19 @@ if (!is_dir($upload_dir)) {
 }
 
 if (isset($_FILES['files'])) {
-    $file_count = count($_FILES['files']['names']);
+    $file_count = count($_FILES['files']['name']);
+
+    echo $file_count;
 
     for ($i=0; $i < $file_count; $i++) { 
-        $file_temp = $_FILES['files']['temp_name'][$i];
+        $file_tmp = $_FILES['files']['tmp_name'][$i];
         $file_name = basename($_FILES['files']['name'][$i]);
         $file_path = $upload_dir . $file_name;
 
-        if (move_uploaded_file($file_temp, $file_path)) {
-            echo "File '$file_name' uploaded successfully. <br />";
+        if (move_uploaded_file($file_tmp, $file_path)) {
+            echo "File '$file_name' uploaded successfully. <br/>";
         } else {
-            echo "Error while uploading the file '$file_name'. <br />";
+            echo "Error while uploading the file '$file_name'. <br/>";
         }
     }
 
