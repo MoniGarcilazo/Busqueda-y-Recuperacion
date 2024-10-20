@@ -1,5 +1,5 @@
 <?php
-
+//elimar*
 function buildInvertedIndex($filenames): array{
     $invertedIndex = [];
 

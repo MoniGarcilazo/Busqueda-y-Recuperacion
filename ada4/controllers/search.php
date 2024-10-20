@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'success' => true,
             'query' => $query,
             'files' => $files,
-            'frequency' => $frequency
+            'frequency' => $frequency,
+            'message' => 'El término se encontró en los documentos'
         ]);
     } else {
         echo json_encode([
@@ -64,4 +65,3 @@ function generateInvertedIndex($dir){
 
     return $inverted_index;
 }
-?>

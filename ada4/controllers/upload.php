@@ -22,4 +22,3 @@ function uploadNewFile($upload_dir){
         }       
     }
 }
-?>
