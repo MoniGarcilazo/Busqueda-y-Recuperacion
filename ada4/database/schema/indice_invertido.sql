@@ -33,7 +33,7 @@ CREATE TABLE `documents` (
   `date` date NOT NULL,
   `size` int NOT NULL,
   `url` varchar(500) NOT NULL,
-  `terms` varchar(500) NOT NULL
+  `description` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------

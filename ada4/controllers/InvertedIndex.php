@@ -1,39 +1,53 @@
 <?php
-//elimar*
-function buildInvertedIndex($filenames): array{
-    $invertedIndex = [];
+include_once '../models/Document.php';
 
-    foreach($filenames as $filename) {
-        $data = file_get_contents($filename);
+class InvertedIndex {
+    private $invertedIndex;
 
-        if($data === false) die('Unable to read file: ' . $filename);
+    public function __construct($path) {
+        $this->invertedIndex = $this->generateInvertedIndex($path);
+    }
 
-        preg_match_all('/(\w+)/', $data, $matches, PREG_SET_ORDER);
+    function generateInvertedIndex($path): array{
+        $inverted_index = [];
 
-        foreach($matches as $match) {
-            $word = strtolower($match[0]);
+        $files = glob($path . '*.txt');    
 
-            if(!array_key_exists($word, $invertedIndex)) $invertedIndex[$word] = [];
-            if(!in_array($filename, $invertedIndex[$word], true)) $invertedIndex[$word][] = $filename;
+        foreach ($files as $file_path) {
+            $document = new Document($file_path);
+            $document->generateTermsFrequency();
+
+            foreach ($document->getFrequency() as $palabra => $frecuencia) {
+                echo "La palabra '$palabra' aparece $frecuencia veces. <br />";
+            }
+            $file_name = $document->getName();
+
+            foreach ($document->getVocabulary() as $term) {
+                if (empty($term)) {
+                    continue;
+                }
+
+                if (!isset($inverted_index[$term])) {
+                    $inverted_index[$term] = [];
+                }
+
+                if (!in_array($file_name, $inverted_index[$term])) {
+                    $inverted_index[$term][] = $file_name;
+                }
+            } 
         }
+
+        //$numDocs = generateNumDocs($inverted_index);
+
+        // foreach ($numDocs as $palabra => $cant) {
+            // echo "La palabra '$palabra' esta en $cant docs. <br />";
+        // }
+
+        return $inverted_index;
     }
 
-    return $invertedIndex;
-}
-
-function lookupWord($invertedIndex, $word) {
-    return array_key_exists($word, $invertedIndex) ? $invertedIndex[$word] : false;
-}
-
-$invertedIndex = buildInvertedIndex(['file1.txt', 'file2.txt', 'file3.txt']);
-
-foreach(['cat', 'is', 'banana', 'it'] as $word) {
-    $matches = lookupWord($invertedIndex, $word);
-
-    if($matches !== false) {
-        echo "Found the word \"$word\" in the following files: " . implode(', ', $matches) . "\n";
+    public function getInvertedIndex(): array {
+        return $this->invertedIndex;
     }
-    else {
-        echo "Unable to find the word \"$word\" in the index\n";
-    }
+
 }
