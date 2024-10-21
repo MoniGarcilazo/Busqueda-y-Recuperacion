@@ -37,61 +37,93 @@ class Management {
 
         return $documents;
     }
-    // Obterner la informacion de los documentos con Document()
-    // Generar el indice invertido con InvertedIndex
-    // Subir la informacion a las tablas de la bd
 
-    public function uploadDocuments(array $documents): void {
-        foreach ($documents as $document) {
-            $name = $document->getName();
-            $date = $document->getDate();
-            $description = $document->getDescription();
-            $size = $document->getDocSize();
-            $url = $this->path . '/' . $name;
+    public function uploadDocument($document) {
+        $name = $document->getName();
+        $date = $document->getDate();
+        $description = $document->getDescription();
+        $size = $document->getDocSize();
+        $url = $this->path . '/' . $name;
 
-            global $insert_document_template;
+        global $insert_document_template;
 
-            $this->db->query($insert_document_template, [
-                ':name' => $name,
-                ':creation_date' => $date,
-                ':url' => $url,
-                ':description' => $description
-            ]);
+        $this->db->query($insert_document_template, [
+            ':name' => $name,
+            ':creation_date' => $date,
+            ':url' => $url,
+            ':description' => $description
+        ]);
 
-            $documentId = $this->db->query("SELECT LAST_INSERT_ID()")->fetchColumn();
-            $this->uploadVocabulary($document, $documentId);
+        return $this->db->query("SELECT LAST_INSERT_ID() AS id")->fetch(PDO::FETCH_ASSOC)['id'];
+    }
+
+    public function insertTerm($term) {
+        global $insert_vocabulary_template_not_exist;
+        global $insert_vocabulary_template_exist;
+
+        // Verificar si el término ya existe
+        $query = "SELECT id FROM vocabulary WHERE terms = :term";
+        $stmt = $this->db->query($query, [':term' => $term]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            $term_id = $result['id'];
+            $this->db->query($insert_vocabulary_template_exist, [':id' => $term_id]);
+            return $result['id'];  // Devolver el id del término existente
+        } else {
+            // Insertar el término si no existe
+            $params = [
+                ':terms' => $term
+            ];
+            $this->db->query($insert_vocabulary_template_not_exist, $params);
+
+            // Recuperar el ID del término insertado
+            return $this->db->query("SELECT LAST_INSERT_ID() AS id")->fetch(PDO::FETCH_ASSOC)['id'];
         }
     }
 
-    public function uploadVocabulary(Document $document, int $documentId): void {
-        $frequency = $document->getFrequency();
+    public function insertPosting($document_id, $term_id, $frequency) {
+        global $insert_posting_template;
 
-        foreach ($frequency as $term => $count) {
-            // Verificar si el termino existe en la tabla `vocabulary`
-            $sql = "SELECT id FROM vocabulary WHERE terms = :terms";
-            $vocabResult = $this->db->query($sql, [':terms' => $term]);
-            $vocabId = $vocabResult->fetchColumn();
+        // Verificar si existe un registro en posting para este documento y termino
+        $query = "SELECT id FROM postings WHERE id_doc = :id_doc AND id_term = :id_term";
+        $stmt = $this->db->query($query,[
+            ':id_doc' => $document_id,
+            ':id_term' => $term_id
+        ]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (!$vocabId) {
-                global $insert_vocabulary_template_not_exist;
-                $this->db->query($insert_vocabulary_template_not_exist, [':term' => $term]);
-                $vocabId = $this->db->query("SELECT LAST_INSERT_ID()")->fetchColumn();
-            } else {
-                // Si ya existe, incrementar el numero de documentos en los que aparece
-                global $insert_vocabulary_template_exist;
-                $this->db->query($insert_vocabulary_template_exist, [':id' => $vocabId]);
-            }
+        if ($result) {
+            return $result['id'];
+        } else {
+            $params = [
+                ':id_doc' => $document_id,
+                ':id_term' => $term_id,
+                ':frequency' => $frequency
+            ];
+            $this->db->query($insert_posting_template, $params);
 
-            // Insertar la frecuencia del termino en el documento en la tabla `postings`
-            global $insert_posting_template;
-            $this->db->query(
-                $insert_posting_template,
-                [
-                    ':id_doc' => $documentId,
-                    ':id_term' => $vocabId,
-                    ':frequency' => $count
-                ]    
-            );
+            return $this->db->query("SELECT LAST_INSERT_ID() AS id")->fetch(PDO::FETCH_ASSOC)['id'];
+        }
+    }
+
+    public function insertPositions($document_id, $terms) {
+        global $insert_position_template;
+
+        $terms_frequencies = array_count_values($terms);
+
+        foreach ($terms as $i => $term) {
+            $term_id = $this->insertTerm($term);
+            $post_id = $this->insertPosting($document_id, $term_id, $terms_frequencies[$term]);
+
+            $params = [
+                ':id_post' => $post_id,
+                ':id_term' => $term_id,
+                ':id_doc' => $document_id,
+                ':position' => $i + 1
+            ];
+
+            $this->db->query($insert_position_template, $params);
         }
     }
 }

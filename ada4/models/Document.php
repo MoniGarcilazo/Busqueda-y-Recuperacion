@@ -11,10 +11,14 @@ class Document {
 
     public function __construct($document_path) {
         $this->document_path = $document_path;
-        $this->name = basename($document_path);
+        $this->initialize();
+    }
+
+    private function initialize(): void {
+        $this->name = basename($this->document_path);
         $this->creation_date = date("Y/m/d");
-        $this->description = file_get_contents($document_path);
-        $this->size = filesize($document_path);
+        $this->description = file_get_contents($this->document_path);
+        $this->size = filesize($this->document_path);
         
         $content = strtolower($this->description);
         $content = preg_replace('/[^\p{L}\p{N}\s]/u', '', $content);
