@@ -57,7 +57,7 @@ class Management {
         return $this->db->query("SELECT LAST_INSERT_ID() AS id")->fetch(PDO::FETCH_ASSOC)['id'];
     }
 
-    public function insertTerm($term) {
+    private function insertTerm($term) {
         global $insert_vocabulary_template_not_exist;
         global $insert_vocabulary_template_exist;
 
@@ -82,7 +82,7 @@ class Management {
         }
     }
 
-    public function insertPosting($document_id, $term_id, $frequency) {
+    private function insertPosting($document_id, $term_id, $frequency) {
         global $insert_posting_template;
 
         // Verificar si existe un registro en posting para este documento y termino
@@ -125,5 +125,9 @@ class Management {
 
             $this->db->query($insert_position_template, $params);
         }
+    }
+
+    public function closeDBConnection() {
+        $this->db->close();
     }
 }

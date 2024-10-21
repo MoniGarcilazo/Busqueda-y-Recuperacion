@@ -34,8 +34,4 @@ foreach ($documents as $document) {
     $management->insertPositions($document_id, $terms);
 }
 
-// indice invertido de los $documents
-$inverted_index = new InvertedIndex($documents);
-$index = $inverted_index->getIndex(); // array con el indice invertido
-
-// Falta obtener el termino
+$management->closeDBConnection();
