@@ -11,6 +11,7 @@ class Management {
     public function __construct($path) {
         $this->path = $path;
         $this->db = new Database();
+        $this->db->connect();
     }
 
     // Pedir todos los ducumentos asociados al path

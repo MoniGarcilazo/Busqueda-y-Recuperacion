@@ -7,10 +7,6 @@ class Database {
     private $password = 'password';
     private $conn;  
 
-    public function __construct() {
-        $this->connect();
-    }
-
     public function connect(): PDO {
         $this->conn = null;
         
