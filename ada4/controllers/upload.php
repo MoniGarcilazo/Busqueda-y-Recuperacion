@@ -27,5 +27,10 @@ if (isset($_FILES['files'])) {
 
 $management = new Management($upload_dir);
 $documents = $management->getAllFiles(); // Array con todos los documentos en uploads/files
+$management->uploadDocuments($documents);
 
+// indice invertido de los $documents
 $inverted_index = new InvertedIndex($documents);
+$index = $inverted_index->getIndex(); // array con el indice invertido
+
+// Falta obtener el termino

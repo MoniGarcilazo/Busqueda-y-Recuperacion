@@ -54,6 +54,28 @@ class InvertedIndex {
         foreach ($documents as $document) {
             $frequency = $document->getFrequency();
             $doc_name = $document->getName();
+
+            // Iterar sobre cada termino la frecuencia de terminos del documento
+            foreach ($frequency as $term => $count) {
+                // Si el termino no esta en el indice se agrega
+                if(!array_key_exists($term, $this->index)) {
+                    $this->index[$term] = [];
+                }
+
+                $this->index[$term][$doc_name] = $count;
+            }
+        }
+    }
+
+    public function getIndex(): array {
+        return $this->index;
+    }
+
+    public function search($term): array|null {
+        if (array_key_exists($term, $this->index)) {
+            return $this->index[$term];
+        } else {
+            return null;
         }
     }
 
