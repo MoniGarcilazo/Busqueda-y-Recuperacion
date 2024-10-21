@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Indización y búsqueda</title>
         <link rel="stylesheet" href="./styles/index.css">
-        <link rel="stylesheet" href="./styles/upload_file.css">
-        <link rel="stylesheet" href="./styles/finder.css">
+        <link rel="stylesheet" href="./upload_file.css">
+        <link rel="stylesheet" href="./finder.css">
         <script src="Scripts/script1.js"></script>
     </head>
     <body>
@@ -14,7 +14,7 @@
             <section class="upload">
                 <h1>Subir archivos</h1>
                 <form id="uploadForm" action="./controllers/upload.php" method="POST" enctype="multipart/form-data">
-                    <label for="files">Selecciona los archivos de texto: </label>
+                    <label for="files">Selecciona tus documentos: </label>
                     <br/>
                     <input type="file" name="files[]" id="files" multiple accept=".txt">
                     <button id="submit" type="submit">Subir archivos</button>
@@ -25,8 +25,7 @@
             <section class="search">
                 <h1>Consultas</h1>
                 <form id="searchForm">
-                    <label for="query">Realiza una consulta: </label>
-                    <input type="text" id="query" name="query" placeholder="..." required>
+                    <input type="text" id="query" name="query" placeholder="Buscar..." required>
                     <button type="submit">Consultar</button>
                     <br/>
                 </form>

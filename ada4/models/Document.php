@@ -2,7 +2,7 @@
 class Document {
     private $document_path;
     private $name;
-    private $date;
+    private $creation_date;
     private $size;
     private $terms;
     private $description;
@@ -12,7 +12,7 @@ class Document {
     public function __construct($document_path) {
         $this->document_path = $document_path;
         $this->name = basename($document_path);
-        $this->date = date("Y/m/d");
+        $this->creation_date = date("Y/m/d");
         $this->description = file_get_contents($document_path);
         $this->size = filesize($document_path);
         
@@ -22,7 +22,7 @@ class Document {
         $this->cantTerms = count($this->terms);
     }
 
-    public function generateTermsFrequency(): array {
+    private function generateTermsFrequency(): array {
         foreach($this->terms as $term) {
             if(array_key_exists($term, $this->frequency)) {
                 $this->frequency[$term]++;
@@ -39,7 +39,7 @@ class Document {
     }
 
     public function getDate(): string {
-        return $this->date;
+        return $this->creation_date;
     }
 
     public function getDocSize(): bool|int {
@@ -59,6 +59,7 @@ class Document {
     }
 
     public function getFrequency(): array {
+        $this->generateTermsFrequency();
         return $this->frequency;
     }
 

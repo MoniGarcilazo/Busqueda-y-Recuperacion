@@ -7,9 +7,6 @@ if (!is_dir($upload_dir)) {
     mkdir($upload_dir, 0777, true);
 }
 
-$management = new Management($upload_dir);
-
-
 if (isset($_FILES['files'])) {
     $file_count = count($_FILES['files']['name']);
 
@@ -24,4 +21,11 @@ if (isset($_FILES['files'])) {
             echo "Error while uploading the file '$file_name'. <br/>";
         }
     }       
+} else {
+    echo "No se ha subido ningun archivo";
 }
+
+$management = new Management($upload_dir);
+$documents = $management->getAllFiles(); // Array con todos los documentos en uploads/files
+
+$inverted_index = new InvertedIndex($documents);

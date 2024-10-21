@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mysql
--- Tiempo de generación: 20-10-2024 a las 03:25:29
+-- Tiempo de generación: 21-10-2024 a las 01:42:15
 -- Versión del servidor: 9.0.1
 -- Versión de PHP: 8.2.23
 
@@ -30,10 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `documents` (
   `id` int NOT NULL,
   `name` varchar(150) NOT NULL,
-  `date` date NOT NULL,
-  `size` int NOT NULL,
+  `creation_date` date NOT NULL,
   `url` varchar(500) NOT NULL,
-  `description` varchar(500) NOT NULL
+  `description` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------

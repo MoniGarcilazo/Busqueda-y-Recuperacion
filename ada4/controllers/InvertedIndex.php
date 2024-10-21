@@ -2,48 +2,59 @@
 include_once '../models/Document.php';
 
 class InvertedIndex {
-    private $invertedIndex;
+    private $invertedIndex = [];
+    private $index = [];
 
-    public function __construct($path) {
-        $this->invertedIndex = $this->generateInvertedIndex($path);
+    // public function __construct($path) {
+    //     $this->invertedIndex = $this->generateInvertedIndex($path);
+    // }
+
+    public function __construct($documents) {
+        $this->buildIndex($documents);
     }
 
-    function generateInvertedIndex($path): array{
-        $inverted_index = [];
+    // function generateInvertedIndex($path): array{
+    //     $inverted_index = [];
 
-        $files = glob($path . '*.txt');    
+    //     $files = glob($path . '*.txt');    
 
-        foreach ($files as $file_path) {
-            $document = new Document($file_path);
-            $document->generateTermsFrequency();
+    //     foreach ($files as $file_path) {
+    //         $document = new Document($file_path);
 
-            foreach ($document->getFrequency() as $palabra => $frecuencia) {
-                echo "La palabra '$palabra' aparece $frecuencia veces. <br />";
-            }
-            $file_name = $document->getName();
+    //         foreach ($document->getFrequency() as $palabra => $frecuencia) {
+    //             echo "La palabra '$palabra' aparece $frecuencia veces. <br />";
+    //         }
+    //         $file_name = $document->getName();
 
-            foreach ($document->getVocabulary() as $term) {
-                if (empty($term)) {
-                    continue;
-                }
+    //         foreach ($document->getVocabulary() as $term) {
+    //             if (empty($term)) {
+    //                 continue;
+    //             }
 
-                if (!isset($inverted_index[$term])) {
-                    $inverted_index[$term] = [];
-                }
+    //             if (!isset($inverted_index[$term])) {
+    //                 $inverted_index[$term] = [];
+    //             }
 
-                if (!in_array($file_name, $inverted_index[$term])) {
-                    $inverted_index[$term][] = $file_name;
-                }
-            } 
+    //             if (!in_array($file_name, $inverted_index[$term])) {
+    //                 $inverted_index[$term][] = $file_name;
+    //             }
+    //         } 
+    //     }
+
+    //     //$numDocs = generateNumDocs($inverted_index);
+
+    //     // foreach ($numDocs as $palabra => $cant) {
+    //         // echo "La palabra '$palabra' esta en $cant docs. <br />";
+    //     // }
+
+    //     return $inverted_index;
+    // }
+
+    private function buildIndex($documents) {
+        foreach ($documents as $document) {
+            $frequency = $document->getFrequency();
+            $doc_name = $document->getName();
         }
-
-        //$numDocs = generateNumDocs($inverted_index);
-
-        // foreach ($numDocs as $palabra => $cant) {
-            // echo "La palabra '$palabra' esta en $cant docs. <br />";
-        // }
-
-        return $inverted_index;
     }
 
     public function getInvertedIndex(): array {
