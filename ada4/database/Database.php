@@ -5,7 +5,11 @@ class Database {
     private $db_name = 'ada4';
     private $user_name = 'root';
     private $password = 'password';
-    private $conn;
+    private $conn;  
+
+    public function __construct() {
+        $this->connect();
+    }
 
     public function connect(): PDO {
         $this->conn = null;
