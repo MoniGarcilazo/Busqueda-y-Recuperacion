@@ -1,5 +1,6 @@
 <?php
 include '../controllers/InvertedIndex.php';
+include '../controllers/cosineSimilarity.php';
 
 $upload_dir = "../uploads/files/";
 
@@ -10,29 +11,46 @@ if (!is_dir($upload_dir)) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query = $_POST['query'] ?? '';
 
-    $invertedIndex = new InvertedIndex($upload_dir);
-    $inverted_index = $invertedIndex->getInvertedIndex();
+    // Vectores que representan 5 documentos
+    $documentVectors = [
+        [1, 2, 3, 0, 1],  // Documento 1
+        [0, 1, 0, 2, 0],  // Documento 2
+        [3, 0, 2, 1, 1],  // Documento 3
+        [1, 1, 1, 0, 0],  // Documento 4
+        [2, 0, 0, 3, 1]   // Documento 5
+    ];
 
-    if (array_key_exists($query, $inverted_index)) {
-        $files = $inverted_index[$query];
-        $frequency= count($files);
+    // Query que queremos comparar con los documentos
+    $queryVector = [1, 1, 2, 0, 1];  // Query a comparar
 
-        echo json_encode([
-            'success' => true,
-            'query' => $query,
-            'files' => $files,
-            'frequency' => $frequency,
-            'message' => 'El término se encontró en los documentos'
-        ]);
-    } else {
-        echo json_encode([
-            'success' => false,
-            'message' => 'El término no se encontró en los documentos'
-        ]);
+    // Arreglo para guardar las similitudes
+    $similarities = [];
+
+    // Calculamos la similitud coseno para cada documento
+    foreach ($documentVectors as $index => $documentVector) {
+        $similarity = cosineSimilarity($queryVector, $documentVector);
+        $similarities[] = [
+            'document' => $index + 1,  // Número del documento
+            'similarity' => $similarity
+        ];
     }
-} else {
+
+    // Ordenamos los resultados por la similitud, de mayor a menor
+    usort($similarities, function($a, $b) {
+        return $b['similarity'] <=> $a['similarity'];
+    });
+
+    // Imprimimos los resultados ordenados
+    foreach ($similarities as $result) {
+        //echo "Documento " . $result['document'] . ": Similitud coseno = " . $result['similarity'] . "\n";
+    }
+
     echo json_encode([
-        'success' => false,
-        'message' => 'Método no permitido'
+        'success' => true,
+        'title' => 'File 3',
+        'content' => 'El gato y el perro juegan juntos.',
+        'url' => '',
+        'similitudCoseno' => '0.73999',
+        'message' => 'El término se encontró en los documentos'
     ]);
-}
+} 

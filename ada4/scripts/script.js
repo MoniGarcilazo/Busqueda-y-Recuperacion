@@ -2,13 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const consultaForm = document.getElementById('searchForm');
     const resultadosDiv = document.getElementById('resultados');
 
-    // Escuchar el evento de envío del formulario de consulta
     consultaForm.addEventListener('submit', function(event) {
         event.preventDefault(); // Evitar que el formulario recargue la página
 
         const query = document.getElementById('query').value;
 
-        // Realizar una solicitud AJAX (usando fetch) para consultar los resultados
         fetch('./controllers/search.php', {
             method: 'POST',
             headers: {
@@ -24,10 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Mostrar los resultados
             if (data.success) {
                 const p = document.createElement('p');
-                p.textContent = `El término "${data.query}" aparece "${data.frequency}" veces en total, en los archivos: "${data.files.join(', ')}".`;
+                p.innerHTML = `
+                    <h2><a href="${data.url}" target="_blank">Titulo: ${data.title}</h2></a>
+                    <p>Contenido: ${data.content}</p>
+                    <p><small>Similitud coseno: ${data.similitudCoseno}</small></p>
+                    `;
                 resultadosDiv.appendChild(p);
+                
             } else {
-                resultadosDiv.innerHTML = `<p>${data.message}</p>`;
+                resultadosDiv.innerHTML = `<p>Error: no se encontro el término</p>`;
             }
         })
         .catch(error => {
