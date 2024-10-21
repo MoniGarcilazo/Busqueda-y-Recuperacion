@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="./styles/index.css">
         <link rel="stylesheet" href="./upload_file.css">
         <link rel="stylesheet" href="./finder.css">
-        <script src="Scripts/script1.js"></script>
+        <script src="Scripts/script.js"></script>
     </head>
     <body>
         <div>
