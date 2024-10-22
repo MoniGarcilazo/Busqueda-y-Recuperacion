@@ -27,7 +27,6 @@ if (isset($_FILES['files'])) {
 
 $management = new Management($upload_dir);
 $documents = $management->getAllFiles(); // Array con todos los documentos en uploads/files;
-
 foreach ($documents as $document) {
     $document_id = $management->uploadDocument($document);
     $terms = $document->getVocabulary();

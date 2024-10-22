@@ -11,6 +11,7 @@ class Management {
     public function __construct($path) {
         $this->path = $path;
         $this->db = new Database();
+        $this->db->connect();
     }
 
     // Pedir todos los ducumentos asociados al path
@@ -18,18 +19,12 @@ class Management {
         $documents = [];
 
         if(is_dir($this->path)) {
-            $directory = opendir($this->path);
+            $files = glob($this->path . '*.txt');
 
-            while(($file = readdir($directory)) !== false) {
-                // ignore special files like . and ..
-                if($file != '.' && $file != '..' &&pathinfo($file, PATHINFO_EXTENSION) === '.txt') {
-                    $file_path = $this->path . '/' . $file;
+            foreach ($files as $file_path) {
                     $document = new Document($file_path);
                     $documents[] = $document;
-                }
             }
-
-            closedir($directory);
 
         } else {
             echo 'El directorio no existe';
@@ -48,10 +43,10 @@ class Management {
         global $insert_document_template;
 
         $this->db->query($insert_document_template, [
-            ':name' => $name,
+            ':name_doc' => $name,
             ':creation_date' => $date,
-            ':url' => $url,
-            ':description' => $description
+            ':url_doc' => $url,
+            ':description_doc' => $description
         ]);
 
         return $this->db->query("SELECT LAST_INSERT_ID() AS id")->fetch(PDO::FETCH_ASSOC)['id'];

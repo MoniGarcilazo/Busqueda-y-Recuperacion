@@ -1,6 +1,7 @@
 <?php
 require_once 'Lexer.php';
 require_once 'Parser.php';
+include '../database/Database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['query'])) {
@@ -32,9 +33,7 @@ function astToSQL($ast) {
         case 'NOT':
             return 'NOT (' . astToSQL($ast['term']) . ')';
         case 'WORD':
-            return "(products.product_name LIKE '%" . $ast['value'] . "%' 
-                     OR products.quantity_per_unit LIKE '%" . $ast['value'] . "%' 
-                     OR products.category LIKE '%" . $ast['value'] . "%')";
+            return "(documents.description_doc LIKE '%" . $ast['value']. "%')";;
         case 'CADENA':
             return "(products.product_name LIKE '%" . $ast['value'] . "%' 
                     OR products.quantity_per_unit LIKE '%" . $ast['value'] . "%' 
@@ -51,10 +50,12 @@ function astToSQL($ast) {
 }
 
 function generarConsulta($query) {
-    $conn = new mysqli("localhost", "root", "", "northwind");
+    $conn = new mysqli("localhost", "root", "", "indice_invertido");
 
     if ($conn->connect_error) {
         die("Conexión fallida: " . $conn->connect_error);
+    }else{
+        echo "Conexión establecidad";
     }
 
     $ast = parseQuery($query);
@@ -62,15 +63,15 @@ function generarConsulta($query) {
     $sqlQuery = astToSQL($ast);
     #echo "Consulta SQL generada:<br> SELECT * FROM products WHERE " .$sqlQuery. "<br><br>";
 
-    $sql = "SELECT * FROM products WHERE " .$sqlQuery;
+    $sql = "SELECT * FROM documents WHERE " .$sqlQuery;
 
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         echo "<table border=1> <tr> <th> Producto </th> <th> Cantidad por unidad </th> <th> Categoría </th> </tr>";
         while ($row = $result->fetch_assoc()) {
-            echo "<tr> <td> " . $row["product_name"] . 
-            "</td><td> " . $row["quantity_per_unit"] . " </td><td> " . $row["category"] . "</td></tr>";
+            echo "<tr> <td> " . $row["name_doc"] . 
+            "</td><td> " . $row["id"] . " </td><td> " . $row["description_doc"] . "</td></tr>";
         }
         echo "</table";
     } else {

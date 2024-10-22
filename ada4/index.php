@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="./styles/index.css">
         <link rel="stylesheet" href="./upload_file.css">
         <link rel="stylesheet" href="./finder.css">
-        <script src="Scripts/script.js"></script>
+        <script src="Scripts/script1.js"></script>
     </head>
     <body>
         <div>
@@ -24,7 +24,7 @@
             <br/>
             <section class="search">
                 <h1>Consultas</h1>
-                <form id="searchForm">
+                <form id="searchForm" onsubmit="event.preventDefault(); enviarConsulta();">
                     <input type="text" id="query" name="query" placeholder="Buscar..." required>
                     <button type="submit">Consultar</button>
                     <br/>
