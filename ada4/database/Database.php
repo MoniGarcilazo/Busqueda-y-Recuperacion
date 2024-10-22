@@ -4,8 +4,8 @@ class Database {
     private $host = 'localhost';
     private $db_name = 'indice_invertido';
     private $user_name = 'root';
-    private $password = '';
-    private $conn;
+    private $password = 'password';
+    private $conn;  
 
     public function connect(): PDO {
         $this->conn = null;
