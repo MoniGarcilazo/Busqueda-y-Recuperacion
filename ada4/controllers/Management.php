@@ -35,21 +35,30 @@ class Management {
 
     public function uploadDocument($document) {
         $name = $document->getName();
-        $date = $document->getDate();
-        $description = $document->getDescription();
-        $size = $document->getDocSize();
         $url = $this->path . '/' . $name;
 
-        global $insert_document_template;
+        //Verificar si el documento existe
+        $query = "SELECT id FROM document WHERE name_doc = :name_doc";
+        $stmt = $this->db->query($query, [':name_doc' => $name]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $this->db->query($insert_document_template, [
-            ':name_doc' => $name,
-            ':creation_date' => $date,
-            ':url_doc' => $url,
-            ':description_doc' => $description
-        ]);
+        if ($result) {
+            echo '<p>El documento que intentas ingresar ya existe, por favor, cambia el nombre de tu documento</p>';
+            return $result['id'];
+        } else { // Insertar el documento si no existe
+            global $insert_document_template;
 
-        return $this->db->query("SELECT LAST_INSERT_ID() AS id")->fetch(PDO::FETCH_ASSOC)['id'];
+            $params = [
+                ':name_doc' => $name,
+                ':creation_date' => $document->getDate(),
+                ':url_doc' => $url,
+                ':description_doc' => $document->getDescription()
+            ];
+
+            $this->db->query($insert_document_template, $params);
+
+            return $this->db->query("SELECT LAST_INSERT_ID() AS id")->fetch(PDO::FETCH_ASSOC)['id'];
+        }
     }
 
     private function insertTerm($term) {
@@ -109,7 +118,11 @@ class Management {
 
         foreach ($terms as $i => $term) {
             $term_id = $this->insertTerm($term);
-            $post_id = $this->insertPosting($document_id, $term_id, $terms_frequencies[$term]);
+            $post_id = $this->insertPosting(
+                $document_id,
+                $term_id,
+                $terms_frequencies[$term]
+            );
 
             $params = [
                 ':id_post' => $post_id,
