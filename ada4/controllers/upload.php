@@ -34,3 +34,4 @@ foreach ($documents as $document) {
 }
 
 $management->closeDBConnection();
+$management->saveUserFiles();

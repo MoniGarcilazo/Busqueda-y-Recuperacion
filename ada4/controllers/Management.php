@@ -7,6 +7,7 @@ include '../database/queries.php';
 class Management {
     private $path;
     private $db;
+    private $url_app_files = '../database/files/';
 
     public function __construct($path) {
         $this->path = $path;
@@ -35,7 +36,8 @@ class Management {
 
     public function uploadDocument($document) {
         $name = $document->getName();
-        $url = $this->path . '/' . $name;
+        $saved_files_url = $this->url_app_files . $name;
+        //$url = $this->path . '/' . $name;
 
         //Verificar si el documento existe
         $query = "SELECT id FROM document WHERE name_doc = :name_doc";
@@ -51,7 +53,7 @@ class Management {
             $params = [
                 ':name_doc' => $name,
                 ':creation_date' => $document->getDate(),
-                ':url_doc' => $url,
+                ':url_doc' => $saved_files_url,
                 ':description_doc' => $document->getDescription()
             ];
 
@@ -132,6 +134,24 @@ class Management {
             ];
 
             $this->db->query($insert_position_template, $params);
+        }
+    }
+
+    public function saveUserFiles(): void {
+        if (!is_dir($this->url_app_files)) {
+            mkdir($this->url_app_files, 0777, true);
+        }
+
+        $files = scandir($this->path);
+
+        foreach ($files as $file) {
+            // ignorar directorios especiales
+            if ($file != '.' && $file != '..') {
+                $source =$this->path . DIRECTORY_SEPARATOR . $file;
+                $destination = $this->url_app_files . DIRECTORY_SEPARATOR . $file;
+
+                rename($source, $destination);
+            }
         }
     }
 
