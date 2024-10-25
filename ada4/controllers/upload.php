@@ -34,4 +34,4 @@ foreach ($documents as $document) {
 }
 
 $management->closeDBConnection();
-$management->saveUserFiles();
+$management->saveUserFiles(); // save documentos to download them later
