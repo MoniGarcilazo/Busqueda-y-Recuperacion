@@ -33,15 +33,11 @@ function astToSQL($ast) {
         case 'NOT':
             return 'NOT (' . astToSQL($ast['term']) . ')';
         case 'WORD':
-            return "(documents.description_doc LIKE '%" . $ast['value']. "%')";;
+            return "(documents.description_doc LIKE '%" . $ast['value']. "%')";
         case 'CADENA':
-            return "(products.product_name LIKE '%" . $ast['value'] . "%' 
-                    OR products.quantity_per_unit LIKE '%" . $ast['value'] . "%' 
-                    OR products.category LIKE '%" . $ast['value'] . "%')";
+            return "(documents.description_doc LIKE '%" . $ast['value']. "%')";
         case 'PATRON':
-            return "(products.product_name LIKE '%" . $ast['value'] . "%' 
-                     OR products.quantity_per_unit LIKE '%" . $ast['value'] . "%' 
-                     OR products.category LIKE '%" . $ast['value'] . "%')";
+            return "(documents.description_doc LIKE '%" . $ast['value']. "%')";
         case 'CAMPOS':
             return ''; // No pude hacerlo, no se como
         default:
@@ -55,7 +51,7 @@ function generarConsulta($query) {
     if ($conn->connect_error) {
         die("Conexión fallida: " . $conn->connect_error);
     }else{
-        echo "Conexión establecidad";
+        //echo "Conexión establecidad";
     }
 
     $ast = parseQuery($query);
@@ -68,7 +64,7 @@ function generarConsulta($query) {
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        echo "<table border=1> <tr> <th> Producto </th> <th> Cantidad por unidad </th> <th> Categoría </th> </tr>";
+        echo "<table border=1> <tr> <th> Documento </th> <th> ID </th> <th> Contenido </th> </tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr> <td> " . $row["name_doc"] . 
             "</td><td> " . $row["id"] . " </td><td> " . $row["description_doc"] . "</td></tr>";
