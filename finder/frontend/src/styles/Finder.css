@@ -1,0 +1,19 @@
+.finder {
+    width: 60%;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-text {
+    margin-bottom: 0 !important;
+    height: auto;
+}
+
+.reset {
+    color: blue;
+}
+
+.field {
+    width: 100%;
+}
