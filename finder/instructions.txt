@@ -1,0 +1,27 @@
+http://localhost:8983/solr/core
+
+[
+  {
+    "id": "1",
+    "name": "Example Product",
+    "category": "Electronics",
+    "price": 199.99
+  },
+  {
+    "id": "2",
+    "name": "Another Product",
+    "category": "Books",
+    "price": 15.99
+  }
+]
+
+# Insertar datos
+curl -X POST -H "Content-Type: application/json" \
+--data-binary @data.json \
+"http://localhost:8983/solr/my_core/update?commit=true"
+
+# Verificar datos
+curl "http://localhost:8983/solr/my_core/select?q=*:*&wt=json&indent=true"
+
+# Busqueda
+curl "http://localhost:8983/solr/my_core/select?q=category:Electronics&wt=json&indent=true"

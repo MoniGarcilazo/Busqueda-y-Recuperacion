@@ -1,74 +1,51 @@
-# Byte-compiled / optimized / DLL files
+# Entornos virtuales
+venv/
+.env/
+*.env
+
+# Archivos de compilación de Python
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual environment
-venv/
-.env/
-.venv/
-env/
-ENV/
-venv.bak/
-.venv.bak/
-
-# VSCode settings
+# Configuración de editor de texto y sistema operativo
 .vscode/
-
-# Pytest cache
-.pytest_cache/
-
-# Cache and logs
-*.log
-*.pot
-*.pyc
-*.pyo
-*.pyd
-
-# FastAPI specific
-instance/
-*.sqlite3
-
-# Environment variables
-.env
-*.env
-
-# pip
-pip-log.txt
-pip-delete-this-directory.txt
-
-# mypy
-.mypy_cache/
-
-# pyre
-.pyre/
-
-# Jupyter Notebook
-.ipynb_checkpoints/
-
-# macOS
+.idea/
+*.swp
 .DS_Store
 
-# Docker
-**/Dockerfile
-.dockerignore
+# Archivos de logs
+*.log
+logs/
+*.pid
 
-# PyCharm
-.idea/
+# Dependencias
+*.egg-info/
+.eggs/
+dist/
+build/
 
-# Coverage reports
+# Archivos de bases de datos SQLite (si aplican)
+*.sqlite3
+*.db
+
+# Archivos de configuración temporales de pytest y cache
+.pytest_cache/
+.cache/
+
+# Configuración de coverage
 htmlcov/
 .coverage
-.tox/
-covhtml/
+.coverage.*
 
-# Pytest
-.pytest_cache/
-__pycache__/
-debug.log
+# Carpetas de testing
+tests/__pycache__/
 
-# SQLite database files
-*.sqlite3
+# Archivos generados por mypy
+.mypy_cache/
 
-# Local development
-.local/
+# Otros
+*.bak
+*.backup
+*.old
+*.orig
