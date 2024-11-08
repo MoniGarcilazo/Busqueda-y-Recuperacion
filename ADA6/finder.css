@@ -1,0 +1,72 @@
+.search {
+    background-color: white;
+}
+
+.search h1 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#searchForm {
+    margin: 1rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50rem;
+}
+
+#resultados {
+    margin-top: 20px;
+    margin-left: 200px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+#resultados div {
+    background-color: #fff;
+    border-radius: 5px;
+    border-color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#resultados h2 {
+    font-size: 1.5rem;
+    color: black;
+    margin-bottom: 5px;
+}
+
+#resultados p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+#resultados small {
+    display: block;
+    margin-top: 5px;
+    color: #7f8c8d;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    #resultados h2 {
+        font-size: 1.3rem;
+    }
+}  

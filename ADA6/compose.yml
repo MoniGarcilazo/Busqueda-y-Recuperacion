@@ -1,0 +1,33 @@
+# docker compose up -d
+# docker compose down
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3305:3306"
+    environment:
+      MYSQL_DATABASE: indice_invertido
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - busqueda-app:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+    networks:
+      - default
+
+  phpmyadmin:
+    image: 'phpmyadmin'
+    ports:
+      - 8081:80
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: password
+    depends_on:
+      - mysql
+
+volumes:
+  busqueda-app:
