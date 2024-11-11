@@ -1,13 +1,24 @@
-.finder {
+#finder {
     width: 60%;
     justify-content: center;
     margin-left: auto;
     margin-right: auto;
+    position: relative; /* Para permitir la posición absoluta de la "x" */
 }
 
 .input-text {
     margin-bottom: 0 !important;
     height: auto;
+    padding-right: 2rem; /* Espacio para el ícono de borrado */
+}
+
+.reset-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: blue;
 }
 
 .reset {

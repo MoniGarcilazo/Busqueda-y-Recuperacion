@@ -34,7 +34,7 @@ function Finder() {
                 </IconField>
                 {input !== '' && (
                     <InputIcon
-                    className='pi pi-times'
+                    className='pi pi-times reset-icon'
                     onClick={reset}></InputIcon>
                 )}
             </form>
