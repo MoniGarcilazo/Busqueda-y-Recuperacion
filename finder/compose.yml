@@ -8,8 +8,8 @@ services:
       - SOLR_HOME=/var/solr/data
       - SOLR_HEAP=1g # Memory size of the solr heap (optional)
     volumes:
-      - solrdata:/var/solr
-    command: 
+      - ./solr-data:/var/solr/data
+    entrypoint: 
       - solr-precreate
       - core # Core name
 
