@@ -2,26 +2,36 @@
     {
         "id": "1",
         "title": "Solr",
-        "content": "Este es un ejemplo de archivo para solr"
+        "content": "Apache Solr es una plataforma de búsqueda y análisis de datos basada en Java que permite indexar grandes volúmenes de información y realizar búsquedas rápidas y eficientes. Ofrece características como búsqueda de texto completo, facetas, resaltado, consultas geoespaciales y escalabilidad, siendo ideal para aplicaciones empresariales y de big data."
     },
     {
         "id": "2",
         "title": "Docker",
-        "content": "Docker es una herramienta para la facilitar la movilidad de desarrollos"
+        "content": "Docker es una plataforma de contenedores que permite desarrollar, empaquetar y ejecutar aplicaciones de manera aislada y portátil. Facilita la creación de entornos consistentes para desarrolladores y equipos al empaquetar aplicaciones con todas sus dependencias. Es ideal para optimizar el desarrollo, despliegue y escalabilidad en entornos locales o en la nube."
     },
     {
         "id": "3",
         "title": "Programacion",
-        "content": "La programación es el acto de programar, es decir, organizar una secuencia de pasos ordenados a seguir para hacer cierta cosa."
+        "content": "La programación es el proceso de crear instrucciones para que una computadora realice tareas específicas. Consiste en diseñar, escribir y depurar código en lenguajes como Python, Java o C++. Es fundamental para desarrollar software, aplicaciones y sistemas, permitiendo automatizar procesos y resolver problemas en diversas áreas tecnológicas."
     },
     {
         "id": "4",
         "title": "Perro",
-        "content": "Mamífero doméstico de la familia de los cánidos, de tamaño, forma y pelaje muy diversos, según las razas, que tiene olfato muy fino y es inteligente y muy leal a su dueño."
+        "content": "El perro es un animal doméstico de la familia de los cánidos, conocido por su lealtad, inteligencia y variedad de razas. Es compañero del ser humano desde hace milenios, desempeñando roles como mascota, guardián, guía, rescatista y cazador, gracias a su agudo sentido del olfato y habilidades sociales."
     },
     {
         "id": "5",
         "title": "Gato",
-        "content": "Es un animal mamífero porque nace vivo de la madre y mama para alimentarse. Tiene el cuerpo cubierto de pelo, tiene cuatro patas y rabo."
+        "content": "El gato es un mamífero doméstico ágil y sigiloso, conocido por su independencia y habilidades como cazador. Su cuerpo flexible, pelaje suave y ojos adaptados para la visión nocturna lo hacen un animal fascinante. Es una de las mascotas más populares por su naturaleza cariñosa y juguetona."
+    },
+    {
+        "id": "6",
+        "title": "Linux",
+        "content": "Linux es un sistema operativo de código abierto basado en Unix, conocido por su estabilidad, seguridad y flexibilidad. Es utilizado en servidores, computadoras personales y dispositivos embebidos. Su comunidad global de desarrolladores contribuye constantemente a su mejora, lo que lo convierte en una opción popular para desarrolladores y administradores de sistemas."
+    },
+    {
+        "id": "7",
+        "title": "Google",
+        "content": "Google es una multinacional tecnológica conocida principalmente por su motor de búsqueda en línea, que organiza y clasifica información de la web. Además, ofrece una amplia gama de productos y servicios, como Gmail, YouTube, Android y Google Cloud, convirtiéndose en una de las empresas más influyentes en el ámbito digital y tecnológico."
     }
 ]
