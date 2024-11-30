@@ -1,0 +1,27 @@
+[
+    {
+        "id": "1",
+        "title": "Solr",
+        "content": "Este es un ejemplo de archivo para solr"
+    },
+    {
+        "id": "2",
+        "title": "Docker",
+        "content": "Docker es una herramienta para la facilitar la movilidad de desarrollos"
+    },
+    {
+        "id": "3",
+        "title": "Programacion",
+        "content": "La programación es el acto de programar, es decir, organizar una secuencia de pasos ordenados a seguir para hacer cierta cosa."
+    },
+    {
+        "id": "4",
+        "title": "Perro",
+        "content": "Mamífero doméstico de la familia de los cánidos, de tamaño, forma y pelaje muy diversos, según las razas, que tiene olfato muy fino y es inteligente y muy leal a su dueño."
+    },
+    {
+        "id": "5",
+        "title": "Gato",
+        "content": "Es un animal mamífero porque nace vivo de la madre y mama para alimentarse. Tiene el cuerpo cubierto de pelo, tiene cuatro patas y rabo."
+    }
+]
