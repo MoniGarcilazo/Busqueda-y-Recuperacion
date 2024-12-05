@@ -5,9 +5,11 @@ from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel
+from pathlib import Path
 
 import requests
 import uuid
+import os
 
 from src.docs.openapi_tag import openapi_tags
 
@@ -43,6 +45,7 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
 SOLR_BASE_URL = "http://localhost:8983/solr/core/select"
 SOLR_UPDATE_URL = "http://localhost:8983/solr/core/update?commit=true"
+TEXT_FILES_PATH = Path("../db")
 
 @app.get("/search/")
 async def search_solr(
@@ -101,6 +104,45 @@ async def add_document(document: Document):
 
     # Retornar una respuesta de éxito
     return {"message": "Documento agregado correctamente", "solr_response": response.json()}
+
+@app.post("/crawling/")
+async def process_and_add_documents():
+    """
+    Lee todos los archivos .txt de una carpeta especificada, extrae el título y contenido,
+    y los agrega a Solr utilizando el endpoint /add_document/.
+    """
+    if not  TEXT_FILES_PATH.exists() or not TEXT_FILES_PATH.is_dir():
+        raise HTTPException(
+            status_code=404,
+            detail="La carpeta no existe o no es válida."
+        )
+    
+    for file in TEXT_FILES_PATH.glob("*.txt"):
+        try:
+            with file.open("r", encoding="utf-8") as f:
+                lines = f.readlines()
+            
+            if not lines:
+                continue  # Ignora archivos vacíos
+
+            title = lines[0].strip()  # La primera línea es el título
+            content = "\n".join(line.strip() for line in lines[1:])  # El resto es el contenido
+
+            # Crea un documento con el título y contenido
+            document = Document(title=title, content=content)
+
+            # Llama al endpoint add_document para agregar el documento a Solr
+            response = await add_document(document)
+
+            os.remove(file)
+            print(f"Documento '{title}' agregado y archivo '{file.name}' eliminado.")
+
+            print(f"Documento '{title}' agregado correctamente a Solr.")
+
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error al procesar el archivo {file.name}: {str(e)}")
+
+    return {"message": "Todos los documentos fueron procesados y agregados a Solr correctamente."}
 
 app.add_middleware(
     CORSMiddleware,

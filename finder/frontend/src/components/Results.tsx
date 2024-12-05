@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Results.css';
 
+import { createSnippet } from '../services/AddSnippet';
+
 function Results() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -33,7 +35,7 @@ function Results() {
                         >
                             {result.title}
                         </h3>
-                        <p>{result.content.slice(0, 150)}...</p>
+                        <p>{createSnippet(result.content)}</p>
                     </div>
                 ))}
             </ul>
