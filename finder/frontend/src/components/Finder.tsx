@@ -1,8 +1,5 @@
 import { ChangeEvent, useState, useEffect, FormEvent } from 'react';
-<<<<<<< HEAD
-=======
 import { useNavigate } from 'react-router-dom';
->>>>>>> 6d5191c004c47d0b6968eb1ebafcd1970763de07
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
@@ -11,60 +8,24 @@ import '../styles/Finder.css';
 
 import { searchSolr } from '../api/solr';
 import { SearchParams } from '../interfaces/solr_search';
-<<<<<<< HEAD
-=======
 import { booleanSearch, isBooleanQuery } from '../services/BooleanSearch';
 import Header from './Header';
 
 import { NormalizeQuery } from '../interfaces/boolean_search';
->>>>>>> 6d5191c004c47d0b6968eb1ebafcd1970763de07
 
 function Finder() {
     const [input, setInput] = useState<string>('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [corrections, setCorrections] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-<<<<<<< HEAD
-    const [results, setResults] = useState<any[]>([]);
-=======
     const navigate = useNavigate(); 
     
->>>>>>> 6d5191c004c47d0b6968eb1ebafcd1970763de07
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
     };
 
-    const handleSearchSubmit = async (event: FormEvent) => {
-<<<<<<< HEAD
-        event.preventDefault();
-        if (!input.trim()) return;
-
-        setLoading(true);
-
-        const input2: SearchParams = {
-            q: input,
-            field: 'content',
-            rows: 10,
-            q_op: 'OR',
-          };
-
-        try {
-            const data = await searchSolr(input2);
-            setResults(data);
-=======
-        const query1 = "Docker OR linux";
-        const query2 = "Docker AND linux";
-        const query3 = "Docker linux";
-
-        console.log(booleanSearch(query1));
-        console.log(booleanSearch(query2));
-        console.log(booleanSearch(query3));
-
-        console.log(isBooleanQuery(query1));
-        console.log(isBooleanQuery(query2));
-        console.log(isBooleanQuery(query3));
-
+    const handleSearchSubmit = async (event: FormEvent) => {        
         event.preventDefault();
         if (!input.trim()) return;
 
@@ -92,8 +53,7 @@ function Finder() {
 
         try {
             const data = await searchSolr(input2);
-            navigate('/results', { state: { results: data.docs, query: input } });
->>>>>>> 6d5191c004c47d0b6968eb1ebafcd1970763de07
+            navigate('/results', { state: { results: data!.docs, query: input } });
             console.log('Resultados:', data);
         } catch (error) {
             console.error('Error al realizar la búsqueda:', error);
@@ -102,11 +62,6 @@ function Finder() {
         }
     };
 
-<<<<<<< HEAD
-    console.log(results);
-
-=======
->>>>>>> 6d5191c004c47d0b6968eb1ebafcd1970763de07
     const fetchSuggestions = async (query: string) => {
         if (!query) {
             setSuggestions([]);
@@ -123,10 +78,6 @@ function Finder() {
             const data = await response.json();
             setSuggestions(data.map((item: { word: string }) => item.word));
 
-<<<<<<< HEAD
-            // Obtener correcciones utilizando TextGears
-=======
->>>>>>> 6d5191c004c47d0b6968eb1ebafcd1970763de07
             // Obtener correcciones (LanguageTool)
             const languageToolResponse = await axios.post(
                 'https://languagetool.org/api/v2/check',
@@ -171,11 +122,8 @@ function Finder() {
     };
 
     return (
-<<<<<<< HEAD
-=======
     <>
         <Header />
->>>>>>> 6d5191c004c47d0b6968eb1ebafcd1970763de07
         <section className="flex gap-3 finder">
             <form id="finder" action="" onSubmit={handleSearchSubmit} method="GET" className="field">
                 <IconField iconPosition="left">

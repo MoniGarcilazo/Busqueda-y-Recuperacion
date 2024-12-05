@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Results.css';
 
+import { createSnippet } from '../services/AddSnippet';
+
 function Results() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -25,7 +27,7 @@ function Results() {
                 {results.map((result: { id: string; title: string; content: string }) => (
                     <li key={result.id}>
                         <h3>{result.title}</h3>
-                        <p>{result.content}</p>
+                        <p>{createSnippet(result.content)}</p>
                     </li>
                 ))}
             </ul>
