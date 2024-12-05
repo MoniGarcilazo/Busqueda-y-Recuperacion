@@ -20,7 +20,7 @@ export interface SolrResponse {
   export interface SolrDocument {
     id: string;
     title: string[];
-    content: string[];
+    content: string;
     _version_: number;
     _root_: string;
   }
@@ -30,7 +30,7 @@ export interface SolrResponse {
     id: string;
     title: string[];
     snippet: string;
-    content: string[];
+    content: string;
     version: number;
     root: string;
   }
@@ -64,8 +64,9 @@ export interface SolrResponse {
     documents: SolrDocument[]
   ): ModifiedDocument[] => {
     return documents.map((doc) => {
-      const contentText = doc.content[0];
+      const contentText = doc.content;   
       const snippet = contentText.split(" ").slice(0, 15).join(" ") + "...";
+      
       return {
         id: doc.id,
         title: doc.title,
