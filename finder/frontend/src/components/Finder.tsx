@@ -51,24 +51,27 @@ function Finder() {
             };
         }
 
+        console.log("Input 2", input2)
+
         setLoading(true);
 
         try {
             const data = await searchSolr(input2);
-
+            const synonyms = await synonymService.getSynonyms(input);
+            console.log(synonyms);
+            console.log("Hola 1");
             if (data?.numFound < 5) {
-                const synonyms = await synonymService.getSynonyms(input);
-                console.log(synonyms)
                 if (synonyms.length > 0) {
                     const synonymQuery = synonyms[1];
                     const newParams: SearchParams = {
                         ...input2,
-                        q: `${input} OR ${synonymQuery}`,
+                        q: `${input}+${synonymQuery}`,
                     };
     
                     // Segunda llamada a Solr con sinónimos
                     const updatedData = await searchSolr(newParams);
-                    navigate('/results', { state: { results: updatedData.docs, query: input } });
+                    console.log(updatedData)
+                    navigate('/results', { state: { results: updatedData?.docs, query: input } });
                     return;
                 }else{
                     navigate('/results', { state: { results: data!.docs, query: input } });
