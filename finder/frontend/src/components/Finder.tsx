@@ -10,6 +10,7 @@ import { searchSolr } from '../api/solr';
 import { SearchParams } from '../interfaces/solr_search';
 import { booleanSearch, isBooleanQuery } from '../services/BooleanSearch';
 import Header from './Header';
+import { SynonymService } from '../services/ConcepNet';
 
 import { NormalizeQuery } from '../interfaces/boolean_search';
 
@@ -19,7 +20,7 @@ function Finder() {
     const [corrections, setCorrections] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate(); 
-    
+    const synonymService = new SynonymService();
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
@@ -54,7 +55,30 @@ function Finder() {
 
         try {
             const data = await searchSolr(input2);
-            navigate('/results', { state: { results: data!.docs, query: input } });
+
+            if (data?.numFound < 5) {
+                const synonyms = await synonymService.getSynonyms(input);
+                console.log(synonyms)
+                if (synonyms.length > 0) {
+                    const synonymQuery = synonyms[1];
+                    const newParams: SearchParams = {
+                        ...input2,
+                        q: `${input} OR ${synonymQuery}`,
+                    };
+    
+                    // Segunda llamada a Solr con sinónimos
+                    const updatedData = await searchSolr(newParams);
+                    navigate('/results', { state: { results: updatedData.docs, query: input } });
+                    return;
+                }else{
+                    navigate('/results', { state: { results: data!.docs, query: input } });
+                }
+
+            }else{
+                navigate('/results', { state: { results: data!.docs, query: input } });
+            }
+    
+            
             console.log('Resultados:', data);
         } catch (error) {
             console.error('Error al realizar la búsqueda:', error);
