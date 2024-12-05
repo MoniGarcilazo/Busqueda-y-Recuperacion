@@ -9,6 +9,9 @@ import '../styles/Finder.css';
 import { searchSolr } from '../api/solr';
 import { SearchParams } from '../interfaces/solr_search';
 import { booleanSearch, isBooleanQuery } from '../services/BooleanSearch';
+import Header from './Header';
+
+import { NormalizeQuery } from '../interfaces/boolean_search';
 
 function Finder() {
     const [input, setInput] = useState<string>('');
@@ -38,14 +41,27 @@ function Finder() {
         event.preventDefault();
         if (!input.trim()) return;
 
-        setLoading(true);
+        let input2: SearchParams;
 
-        const input2: SearchParams = {
-            q: input,
-            field: 'content',
-            rows: 10,
-            q_op: 'OR',
-          };
+        const booleanQuery: NormalizeQuery = booleanSearch(input);
+
+        if (isBooleanQuery(input)) {
+            input2 = {
+                q: booleanQuery.query,
+                field: 'content',
+                rows: 10,
+                q_op: booleanQuery.operator,
+            };
+        } else {
+            input2 = {
+                q: booleanQuery.query,
+                field: 'content',
+                rows: 10,
+                q_op: 'OR',
+            };
+        }
+
+        setLoading(true);
 
         try {
             const data = await searchSolr(input2);

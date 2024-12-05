@@ -2,7 +2,7 @@ export interface SearchParams {
     q: string;
     field: string;
     rows: number;
-    q_op: string;
+    q_op: string | null;
 }
 
 interface SearchDocument {
