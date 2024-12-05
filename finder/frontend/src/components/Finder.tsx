@@ -1,22 +1,49 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState, useEffect, FormEvent } from 'react';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import '../styles/Finder.css';
 
- 
-
+import { searchSolr } from '../api/solr';
+import { SearchParams } from '../interfaces/solr_search';
 
 function Finder() {
     const [input, setInput] = useState<string>('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [corrections, setCorrections] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [results, setResults] = useState<any[]>([]);
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
     };
+
+    const handleSearchSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+        if (!input.trim()) return;
+
+        setLoading(true);
+
+        const input2: SearchParams = {
+            q: input,
+            field: 'content',
+            rows: 10,
+            q_op: 'OR',
+          };
+
+        try {
+            const data = await searchSolr(input2);
+            setResults(data);
+            console.log('Resultados:', data);
+        } catch (error) {
+            console.error('Error al realizar la búsqueda:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    console.log(results);
 
     const fetchSuggestions = async (query: string) => {
         if (!query) {
@@ -59,7 +86,6 @@ function Finder() {
         }
     };
     
-
     useEffect(() => {
         const debounce = setTimeout(() => {
             fetchSuggestions(input);
@@ -79,14 +105,9 @@ function Finder() {
         setCorrections([]);
     };
 
-    // const querySolr = async (query: string) => {
-    //     const response = await fetch(`http://localhost:8000/api/solr?q=${query}`);
-    //     const data = await response.json();
-    //     return data.response.docs;
-    // };
     return (
         <section className="flex gap-3 finder">
-            <form id="finder" action="" method="GET" className="field">
+            <form id="finder" action="" onSubmit={handleSearchSubmit} method="GET" className="field">
                 <IconField iconPosition="left">
                     <InputIcon className="pi pi-search"></InputIcon>
                     <InputText
@@ -135,7 +156,6 @@ function Finder() {
                 </ul>
             )}
             </form>
-
             
         </section>
     );
