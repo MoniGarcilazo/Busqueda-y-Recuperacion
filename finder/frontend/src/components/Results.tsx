@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Results.css';
 
+import { createSnippet } from '../services/AddSnippet';
+
 function Results() {
     const location = useLocation();
     const navigate = useNavigate();
