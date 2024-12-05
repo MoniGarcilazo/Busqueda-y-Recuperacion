@@ -5,8 +5,6 @@ import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import '../styles/Finder.css';
 
- 
-
 
 function Finder() {
     const [input, setInput] = useState<string>('');
@@ -34,7 +32,6 @@ function Finder() {
             const data = await response.json();
             setSuggestions(data.map((item: { word: string }) => item.word));
 
-            // Obtener correcciones utilizando TextGears
             // Obtener correcciones (LanguageTool)
             const languageToolResponse = await axios.post(
                 'https://languagetool.org/api/v2/check',
@@ -79,11 +76,6 @@ function Finder() {
         setCorrections([]);
     };
 
-    // const querySolr = async (query: string) => {
-    //     const response = await fetch(`http://localhost:8000/api/solr?q=${query}`);
-    //     const data = await response.json();
-    //     return data.response.docs;
-    // };
     return (
         <section className="flex gap-3 finder">
             <form id="finder" action="" method="GET" className="field">

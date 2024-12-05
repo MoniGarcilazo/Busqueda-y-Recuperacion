@@ -1,0 +1,73 @@
+{
+  "hash": "34f0aa49",
+  "configHash": "645f4feb",
+  "lockfileHash": "a10640f1",
+  "browserHash": "4f6b2826",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "dcc768ef",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "a1434317",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "e1542acc",
+      "needsInterop": true
+    },
+    "primereact/api": {
+      "src": "../../node_modules/primereact/api/api.esm.js",
+      "file": "primereact_api.js",
+      "fileHash": "20ed964c",
+      "needsInterop": false
+    },
+    "primereact/iconfield": {
+      "src": "../../node_modules/primereact/iconfield/iconfield.esm.js",
+      "file": "primereact_iconfield.js",
+      "fileHash": "a8235a33",
+      "needsInterop": false
+    },
+    "primereact/inputicon": {
+      "src": "../../node_modules/primereact/inputicon/inputicon.esm.js",
+      "file": "primereact_inputicon.js",
+      "fileHash": "b0768bcb",
+      "needsInterop": false
+    },
+    "primereact/inputtext": {
+      "src": "../../node_modules/primereact/inputtext/inputtext.esm.js",
+      "file": "primereact_inputtext.js",
+      "fileHash": "48f9247b",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "3b23b4ee",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-TNTPHDQH": {
+      "file": "chunk-TNTPHDQH.js"
+    },
+    "chunk-WV3GAPWK": {
+      "file": "chunk-WV3GAPWK.js"
+    },
+    "chunk-I5M7NZW5": {
+      "file": "chunk-I5M7NZW5.js"
+    },
+    "chunk-32E4H3EV": {
+      "file": "chunk-32E4H3EV.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
+    }
+  }
+}
