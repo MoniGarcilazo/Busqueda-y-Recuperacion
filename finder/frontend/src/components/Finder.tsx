@@ -25,19 +25,7 @@ function Finder() {
         setInput(event.target.value);
     };
 
-    const handleSearchSubmit = async (event: FormEvent) => {
-        const query1 = "Docker OR linux";
-        const query2 = "Docker AND linux";
-        const query3 = "Docker linux";
-
-        console.log(booleanSearch(query1));
-        console.log(booleanSearch(query2));
-        console.log(booleanSearch(query3));
-
-        console.log(isBooleanQuery(query1));
-        console.log(isBooleanQuery(query2));
-        console.log(isBooleanQuery(query3));
-
+    const handleSearchSubmit = async (event: FormEvent) => {        
         event.preventDefault();
         if (!input.trim()) return;
 
@@ -65,7 +53,7 @@ function Finder() {
 
         try {
             const data = await searchSolr(input2);
-            navigate('/results', { state: { results: data.docs, query: input } });
+            navigate('/results', { state: { results: data!.docs, query: input } });
             console.log('Resultados:', data);
         } catch (error) {
             console.error('Error al realizar la búsqueda:', error);
