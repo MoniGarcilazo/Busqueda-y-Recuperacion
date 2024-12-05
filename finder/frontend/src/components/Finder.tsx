@@ -5,9 +5,6 @@ import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import '../styles/Finder.css';
 
- 
-
-
 function Finder() {
     const [input, setInput] = useState<string>('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
