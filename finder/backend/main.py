@@ -49,22 +49,26 @@ async def search_solr(
     field: str = Query("content", description="Campo para buscar por defecto"),
     q: str = Query(..., description="Consulta para buscar en Solr"),
     rows: int = Query(10, description="Resultados por devolver", ge=1, le=100),
+    q_op: str = Query("OR", description="Operador logico para la consulta booleana", regex="^(OR|AND)$")
 ):
+    """
+    Endpoint para la busqueda y recuperacion de archivos de Solr
+    Los campos que recibe son field, q (query), rows, q_op
+    """
     params = {
         "q": f"{field}:{q}",
         "rows": rows,
         "wt": "json",
-        "q.op": "OR",
+        "q.op": q_op,
         "indent": "true",
     }
 
     try:
         response = requests.get(SOLR_BASE_URL, params=params)
-        response.raise_for_status()  # Verifica si la solicitud fue exitosa
+        response.raise_for_status() 
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=500, detail=f"Error al conectar con Solr: {e}")
     
-    # Procesar la respuesta de Solr
     solr_response = response.json()
     
     if "response" not in solr_response:
@@ -76,10 +80,10 @@ async def search_solr(
 async def add_document(document: Document):
     """
     Endpoint para agregar un documento a Solr.
-    Recibe un documento en formato JSON con los campos 'id', 'title', 'content'.
+    Recibe un documento en formato JSON con los campos, 'title', 'content'.
     """
     document_id = str(uuid.uuid4())
-    # Preparar el documento en formato JSON compatible con Solr
+    
     solr_document = [
         {
             "id": document_id,
