@@ -28,3 +28,73 @@
 .field {
     width: 100%;
 }
+.suggestions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(10px);
+}
+
+.suggestions.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.suggestions li {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.suggestions li:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.suggestions .loading {
+    padding: 12px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    font-size: 14px;
+}
+
+/* Estilo especial para las sugerencias de corrección */
+.suggestions .correction-header {
+    padding: 12px 16px;
+    background-color: #f5f5f5;
+    color: #888;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.suggestions .correction {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #ff6600; 
+}
+
+.suggestions .correction:hover {
+    background-color: #ff6600;
+    color: white;
+    border-radius: 8px;
+}
