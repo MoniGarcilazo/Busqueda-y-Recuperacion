@@ -25,7 +25,8 @@ function Finder() {
         setInput(event.target.value);
     };
 
-    const handleSearchSubmit = async (event: FormEvent) => {        
+    const handleSearchSubmit = async (event: FormEvent) => {
+
         event.preventDefault();
         if (!input.trim()) return;
 

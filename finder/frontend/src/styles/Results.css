@@ -23,6 +23,10 @@
     color: #007bff;
     text-align: left;
 }
+.results h3:hover {
+    text-decoration: underline;
+}
+
 
 .results p {
     font-size: 14px;
