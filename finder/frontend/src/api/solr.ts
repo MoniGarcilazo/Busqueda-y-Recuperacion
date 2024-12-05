@@ -8,7 +8,6 @@ export const searchSolr = async (queryParams: SearchParams): Promise<Results | n
         const response = await axios.get<Results>('http://localhost:8000/search/', {
             params: queryParams,
         });
-        console.log('Datos de Solr: ', response.data);
         return response.data;
     } catch (error) {
         console.error('Error al hacer la consulta: ', error);
@@ -23,7 +22,7 @@ export const addDocument = async (document: AddDocument): Promise<void> => {
                 'Content-Type': 'application/json',
             },
         });
-        console.log('Respuesta solr: ', response.data)
+        return response.data;
     } catch (error) {
         console.error('Error al agregar documento: ', error);
     }

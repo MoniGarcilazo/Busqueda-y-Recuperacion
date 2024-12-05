@@ -1,4 +1,5 @@
 import { ChangeEvent, useState, useEffect, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
@@ -8,13 +9,17 @@ import '../styles/Finder.css';
 import { searchSolr } from '../api/solr';
 import { SearchParams } from '../interfaces/solr_search';
 import { booleanSearch, isBooleanQuery } from '../services/BooleanSearch';
+import Header from './Header';
+
+import { NormalizeQuery } from '../interfaces/boolean_search';
 
 function Finder() {
     const [input, setInput] = useState<string>('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [corrections, setCorrections] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [results, setResults] = useState<any[]>([]);
+    const navigate = useNavigate(); 
+    
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
@@ -36,18 +41,31 @@ function Finder() {
         event.preventDefault();
         if (!input.trim()) return;
 
-        setLoading(true);
+        let input2: SearchParams;
 
-        const input2: SearchParams = {
-            q: input,
-            field: 'content',
-            rows: 10,
-            q_op: 'OR',
-          };
+        const booleanQuery: NormalizeQuery = booleanSearch(input);
+
+        if (isBooleanQuery(input)) {
+            input2 = {
+                q: booleanQuery.query,
+                field: 'content',
+                rows: 10,
+                q_op: booleanQuery.operator,
+            };
+        } else {
+            input2 = {
+                q: booleanQuery.query,
+                field: 'content',
+                rows: 10,
+                q_op: 'OR',
+            };
+        }
+
+        setLoading(true);
 
         try {
             const data = await searchSolr(input2);
-            setResults(data);
+            navigate('/results', { state: { results: data.docs, query: input } });
             console.log('Resultados:', data);
         } catch (error) {
             console.error('Error al realizar la búsqueda:', error);
@@ -55,8 +73,6 @@ function Finder() {
             setLoading(false);
         }
     };
-
-    console.log(results);
 
     const fetchSuggestions = async (query: string) => {
         if (!query) {
@@ -74,7 +90,6 @@ function Finder() {
             const data = await response.json();
             setSuggestions(data.map((item: { word: string }) => item.word));
 
-            // Obtener correcciones utilizando TextGears
             // Obtener correcciones (LanguageTool)
             const languageToolResponse = await axios.post(
                 'https://languagetool.org/api/v2/check',
@@ -119,6 +134,8 @@ function Finder() {
     };
 
     return (
+    <>
+        <Header />
         <section className="flex gap-3 finder">
             <form id="finder" action="" onSubmit={handleSearchSubmit} method="GET" className="field">
                 <IconField iconPosition="left">
@@ -171,7 +188,9 @@ function Finder() {
             </form>
             
         </section>
+        </>
     );
+    
 }
 
 export default Finder;

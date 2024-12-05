@@ -1,0 +1,42 @@
+.results {
+    margin: 20px;
+}
+
+.results h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.results ul {
+    list-style: none;
+    padding: 0;
+}
+
+.results li {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.results h3 {
+    font-size: 18px;
+    color: #007bff;
+    text-align: left;
+}
+
+.results p {
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+}
+.btn {
+    display: flex;
+    font-size: 14px;
+    border: none; 
+    color: white; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    background-color: #007bff;
+  }
+  .btn:hover {background: #6ca6ff;}

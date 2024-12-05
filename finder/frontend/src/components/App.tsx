@@ -1,14 +1,16 @@
 import '../styles/App.css'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Finder from './Finder'
-import Header from './Header'
+import Results from './Results';
 
 function App() {
   return (
-    <>
-      <Header />
-      <Finder />
-    </>
+    <Router>
+      <Routes>
+          <Route path="/" element={<Finder />} />
+          <Route path="/results" element={<Results />} />
+      </Routes>
+    </Router>
   )
 }
 
