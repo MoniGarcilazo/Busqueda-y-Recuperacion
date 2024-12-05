@@ -1,14 +1,28 @@
-let query: string = "Docker And Gato Or programacion";
-query = query.toLowerCase();
+import { NormalizeQuery } from "../interfaces/boolean_search";
 
-//reemplazar por los operadores que acepta Solr
-query = query.replace('and', 'AND');
-query = query.replace('or', 'OR');
-query = query.replace('not', 'NOT');
+export const booleanSearch = (inputQuery: string): NormalizeQuery => {
+    const normalizedInput = inputQuery.trim().toUpperCase();
 
-let queryAux: string = query;
-queryAux = queryAux.replace(/ /g, '+'); // suponiendo que la string tenga espacios en blanco, si no no sirve
+    let operator: "AND" | "OR" | null = null;
+    let query = "";
 
-let finalQuery = `http://localhost:8983/solr/ejemplo/select?q=${queryAux}&wt=json`;
+    if (normalizedInput.includes(" AND ")) {
+        operator = "AND";
+        query = normalizedInput.replace(/ AND /g, "+");
+    } else if (normalizedInput.includes(" OR ")) {
+        operator = 'OR';
+        query = normalizedInput.replace(/ OR /, "+");
+    } else {
+        query = inputQuery.replace(/\s+/g, "+");
+    }
 
-//console.log(finalQuery);
+    return {
+        query,
+        operator,
+    }
+}
+
+export const isBooleanQuery = (query: string): boolean => {
+    const normalizeQuery = query.toLowerCase();
+    return normalizeQuery.includes("and") || normalizeQuery.includes('or');
+}
