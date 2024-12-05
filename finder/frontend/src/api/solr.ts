@@ -22,8 +22,17 @@ export const addDocument = async (document: AddDocument): Promise<void> => {
                 'Content-Type': 'application/json',
             },
         });
-        return response.data;
+        //return response.data;
     } catch (error) {
         console.error('Error al agregar documento: ', error);
     }
 }
+
+export const processDocuments = async () => {
+    try {
+        const response = await axios.post("http://localhost:8000/crawling/");
+        console.log(response.data);
+    } catch (error) {
+        console.error("Error al procesar documentos: ", error);
+    }
+};

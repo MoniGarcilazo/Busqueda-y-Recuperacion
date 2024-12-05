@@ -35,7 +35,7 @@ function Results() {
                         >
                             {result.title}
                         </h3>
-                        <p>{result.content.slice(0, 150)}...</p>
+                        <p>{createSnippet(result.content)}</p>
                     </div>
                 ))}
             </ul>
