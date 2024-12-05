@@ -9,6 +9,7 @@ from pathlib import Path
 
 import requests
 import uuid
+import os
 
 from src.docs.openapi_tag import openapi_tags
 
@@ -132,6 +133,9 @@ async def process_and_add_documents():
 
             # Llama al endpoint add_document para agregar el documento a Solr
             response = await add_document(document)
+
+            os.remove(file)
+            print(f"Documento '{title}' agregado y archivo '{file.name}' eliminado.")
 
             print(f"Documento '{title}' agregado correctamente a Solr.")
 
