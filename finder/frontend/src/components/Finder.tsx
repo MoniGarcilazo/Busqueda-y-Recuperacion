@@ -1,4 +1,5 @@
 import { ChangeEvent, useState, useEffect, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
@@ -7,13 +8,15 @@ import '../styles/Finder.css';
 
 import { searchSolr } from '../api/solr';
 import { SearchParams } from '../interfaces/solr_search';
+import Header from './Header';
 
 function Finder() {
     const [input, setInput] = useState<string>('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [corrections, setCorrections] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [results, setResults] = useState<any[]>([]);
+    const navigate = useNavigate(); 
+    
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
@@ -34,7 +37,7 @@ function Finder() {
 
         try {
             const data = await searchSolr(input2);
-            setResults(data);
+            navigate('/results', { state: { results: data.docs, query: input } });
             console.log('Resultados:', data);
         } catch (error) {
             console.error('Error al realizar la búsqueda:', error);
@@ -42,8 +45,6 @@ function Finder() {
             setLoading(false);
         }
     };
-
-    console.log(results);
 
     const fetchSuggestions = async (query: string) => {
         if (!query) {
@@ -105,6 +106,8 @@ function Finder() {
     };
 
     return (
+    <>
+        <Header />
         <section className="flex gap-3 finder">
             <form id="finder" action="" onSubmit={handleSearchSubmit} method="GET" className="field">
                 <IconField iconPosition="left">
@@ -157,7 +160,9 @@ function Finder() {
             </form>
             
         </section>
+        </>
     );
+    
 }
 
 export default Finder;
