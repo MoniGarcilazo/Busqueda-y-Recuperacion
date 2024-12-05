@@ -23,10 +23,18 @@ function Results() {
             <h2>Resultados para "{query}"</h2>
             <ul>
                 {results.map((result: { id: string; title: string; content: string }) => (
-                    <li key={result.id}>
-                        <h3>{result.title}</h3>
-                        <p>{result.content}</p>
-                    </li>
+                    <div key={result.id}>
+                        <h3 
+                            onClick={() =>
+                                navigate(`/details/${result.id}`, {
+                                    state: { title: result.title, content: result.content },
+                                })
+                            }
+                        >
+                            {result.title}
+                        </h3>
+                        <p>{result.content.slice(0, 150)}...</p>
+                    </div>
                 ))}
             </ul>
         </div>
