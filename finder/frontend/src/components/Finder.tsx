@@ -8,7 +8,7 @@ import '../styles/Finder.css';
 
 import { searchSolr } from '../api/solr';
 import { SearchParams } from '../interfaces/solr_search';
-import Header from './Header';
+import { booleanSearch, isBooleanQuery } from '../services/BooleanSearch';
 
 function Finder() {
     const [input, setInput] = useState<string>('');
@@ -23,6 +23,18 @@ function Finder() {
     };
 
     const handleSearchSubmit = async (event: FormEvent) => {
+        const query1 = "Docker OR linux";
+        const query2 = "Docker AND linux";
+        const query3 = "Docker linux";
+
+        console.log(booleanSearch(query1));
+        console.log(booleanSearch(query2));
+        console.log(booleanSearch(query3));
+
+        console.log(isBooleanQuery(query1));
+        console.log(isBooleanQuery(query2));
+        console.log(isBooleanQuery(query3));
+
         event.preventDefault();
         if (!input.trim()) return;
 
