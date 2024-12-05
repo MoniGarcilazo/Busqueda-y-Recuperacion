@@ -54,7 +54,7 @@ function Finder() {
 
         try {
             const data = await searchSolr(input2);
-            navigate('/results', { state: { results: data.docs, query: input } });
+            navigate('/results', { state: { results: data!.docs, query: input } });
             console.log('Resultados:', data);
         } catch (error) {
             console.error('Error al realizar la búsqueda:', error);
