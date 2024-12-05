@@ -1,0 +1,19 @@
+services:
+  solr:
+    image: solr:latest
+    container_name: solr-server
+    ports:
+      - "8983:8983"
+    environment:
+      - SOLR_OPTS=-Dsolr.enable.cors=true -Dsolr.cors.allow-origin=* -Dsolr.cors.allow-methods=GET,POST,OPTIONS -Dsolr.cors.allow-headers=Authorization,X-Requested-With,Content-Type,Content-Length -Dsolr.cors.expose-headers=Content-Type,Content-Length
+      - SOLR_HOME=/var/solr/data
+      - SOLR_HEAP=1g # Memory size of the solr heap (optional)
+    volumes:
+      - ./solr-data:/var/solr/data
+    entrypoint: 
+      - solr-precreate
+      - core # Core name
+
+volumes:
+  solrdata:
+    driver: local
